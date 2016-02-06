@@ -14,7 +14,7 @@ void AI::doTurn(World *world)
 		if (neighbours.size() > 0)
 		{
 			/** Select a random neighbour **/
-			Node *destination = neighbours[(int)(neighbours.size() * rand())];
+			Node *destination = neighbours[(int)(rand() % neighbours.size())];
 			/** Move half of the nodes army to the neighbour node **/
 			world->moveArmy(source, destination, source->getArmyCount() / 2);
 		}
