@@ -1,22 +1,28 @@
+#ifndef _EVENT_H
+#define _EVENT_H
+
 #include <vector>
 #include <string>
 
 /**
  * Event class.
  */
+
 class Event
 {
 public:
 	static const std::string EVENT = "event";
 
-	Event(std::string type, std::vector<Object*> args);
+	Event(std::string type, std::vector<std::string> args);
 
-    public std::string getType();
-    public std::vector<Object*> getArgs();
+    std::string getType();
+    const std::vector<std::string>& getArgs();
 
 protected:
 	/** The type of the Event **/
     std::string type;			
     /** Arguments of the Event **/
-    std::vector<Object*> args;
+    std::vector<std::string> args;
 };
+
+#endif _EVENT_H

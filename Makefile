@@ -1,7 +1,13 @@
 CXX = g++ --std=c++0x
-FLAGS = -Wall -L/usr/local/lib -Wl,-rpath=/usr/local/lib
+JSONPATH = jsoncpp-src-0.5.0/include
+FLAGS = -Wall -L/usr/local/lib -Wl,-rpath=/usr/local/lib -I$(JSONPATH)
+LIBS = -lpthread
 
 TARGET = flows.out
+
+JSON_OBJECTS = jsoncpp-src-0.5.0/src/lib_json/json_reader.o \
+	       jsoncpp-src-0.5.0/src/lib_json/json_value.o \
+	       jsoncpp-src-0.5.0/src/lib_json/json_writer.o
 
 BASE_SOURCES = $(wildcard */*.cpp) $(wildcard *.cpp)
 BASE_OBJ = ${BASE_SOURCES:.cpp=.o}
