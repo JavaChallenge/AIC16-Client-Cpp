@@ -17,7 +17,7 @@ Controller::Controller(std::string settingsFile) :
 	time = 0;
 	port = 0;
 	eventHandler = NULL;
-	model = NULL;
+	game = NULL;
 	network = NULL;
 	client = NULL;
 }
@@ -25,8 +25,8 @@ Controller::Controller(std::string settingsFile) :
 Controller::~Controller() {
 	if (eventHandler != NULL)
 		delete eventHandler;
-	if (model != NULL)
-		delete model;
+	if (game != NULL)
+		delete game;
 	if (network != NULL)
 		delete network;
 	if (client != NULL)
@@ -40,7 +40,7 @@ void Controller::start() {
 		network = new Network(this);
 		network->setConnectionData(ip, port, token);
 		eventHandler = new EventHandler(network);
-		model = new Model(eventHandler);
+		game = new Model(eventHandler);
 		client = new AI();
 		int counter = 0;
 		while (counter < 10 && network != NULL && !network->getIsConnected()) {
@@ -57,7 +57,7 @@ void Controller::start() {
 		 */
 
 		delete eventHandler;
-		delete model;
+		delete game;
 		delete client;
 		delete network;
 	} catch (const char* str) {
@@ -95,16 +95,16 @@ void Controller::handleMessage(Message &msg) {
 }
 
 void Controller::handleTurnMessage(Message &msg) {
-	model->handleTurnMessage(msg);
+	game->handleTurnMessage(msg);
 	doTurn();
 }
 
 void Controller::handleInitMessage(Message &msg) {
-	model->handleInitMessage(msg);
+	game->handleInitMessage(msg);
 }
 
 void Controller::run() {
-	client->doTurn(model->getWorld());
+	client->doTurn(game->getWorld());
 }
 
 void Controller::doTurn() {

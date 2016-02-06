@@ -13,7 +13,7 @@
 #include "Message.h"
 #include "Network.h"
 #include "AI.h"
-#include "Model.h"
+#include "Game.h"
 #include <fstream>
 #include <string>
 #include "EventHandler.h"
@@ -26,7 +26,7 @@ private:
 	int port;
 	EventHandler *eventHandler;
 	AI* client;
-	Model* model;
+	Game* game;
 	Network* network;
 	std::string settingsFile;
 	time_t time;
