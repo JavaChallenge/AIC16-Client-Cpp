@@ -1,0 +1,51 @@
+/*
+ * Node.cpp
+ *
+ *  Created on: Feb 6, 2016
+ *      Author: armin
+ */
+
+#include "Node.h"
+
+Node::Node(int index) {
+	// TODO Auto-generated constructor stub
+	this->index = index;
+}
+
+Node::~Node() {
+	// TODO Auto-generated destructor stub
+}
+
+const std::vector<Node*>& Node::getNeighbours() {
+	return this->getNeighbours();
+}
+
+int Node::getIndex() {
+	return this->index;
+}
+
+int Node::getOwner() {
+	return this->owner;
+}
+
+int Node::getArmyCount() {
+	return this->armyCount;
+}
+
+void Node::setNeighbours(const std::vector<Node*> neighbours) {
+	this->neighbours.clear();
+	for(auto neighbour : neighbours)
+		this->neighbours.push_back(neighbour);
+}
+
+void Node::setOwner(int owner) {
+    this->owner = owner;
+}
+
+void Node::setArmyCount(int armyCount) {
+    this->armyCount = armyCount;
+}
+
+void Node::setIndex(int index) {
+    this->index = index;
+}
