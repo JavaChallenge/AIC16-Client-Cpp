@@ -14,6 +14,7 @@
 class World
 {
 public:
+	World();
 	virtual ~World();
 
 	/**
@@ -28,28 +29,28 @@ public:
 	 *
 	 * @return a graph that represents the map of the game.
 	 */
-	virtual Graph * getMap() = 0;
+	virtual Graph* getMap() = 0;
 
 	/**
 	 * get nodes that you are owner of them.
 	 *
 	 * @return your nodes
 	 */
-	virtual std::vector<Node*> getMyNodes() = 0;
+	virtual std::vector<Node*>& getMyNodes() = 0;
 
 	/**
 	 * get nodes that your opponent is owner of them.
 	 *
 	 * @return opponent's nodes
 	 */
-	virtual std::vector<Node*> getOpponentNodes() = 0;
+	virtual std::vector<Node*>& getOpponentNodes() = 0;
 
 	/**
 	 * get nodes of the game that none of the two players are owner of them.
 	 *
 	 * @return free (without owner) nodes
 	 */
-	virtual std::vector<Node*> getFreeNodes() = 0;
+	virtual std::vector<Node*>& getFreeNodes() = 0;
 
 	/**
 	 * number of turns that passed as long as game started.

@@ -6,6 +6,7 @@
  */
 
 #include "Controller.h"
+#include "Network.h"
 #include <chrono>
 #include <unistd.h>
 
@@ -40,7 +41,7 @@ void Controller::start() {
 		network = new Network(this);
 		network->setConnectionData(ip, port, token);
 		eventHandler = new EventHandler(network);
-		game = new Model(eventHandler);
+		game = new Game();
 		client = new AI();
 		int counter = 0;
 		while (counter < 10 && network != NULL && !network->getIsConnected()) {
@@ -104,12 +105,12 @@ void Controller::handleInitMessage(Message &msg) {
 }
 
 void Controller::run() {
-	client->doTurn(game->getWorld());
+	client->doTurn(game);
 }
 
 void Controller::doTurn() {
 	try {
-		std::thread thr(&Controller::run);
+		std::thread thr(&Controller::run,this);
 		usleep(MAX_TIME_FOR_DO_TURN*1000);
 
 //		boost::thread thr(boost::bind(&Controller::run, this));

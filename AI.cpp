@@ -1,6 +1,7 @@
 #include "AI.h"
 
 #include <vector>
+#include <cstdlib>
 
 void AI::doTurn(World *world)
 {

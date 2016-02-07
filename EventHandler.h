@@ -32,4 +32,6 @@ public:
 	void addEvent(GameEvent *event);
 };
 
+extern EventHandler* eventHandler;
+
 #endif /* EVENTHANDLER_H_ */

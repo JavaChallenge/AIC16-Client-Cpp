@@ -42,6 +42,17 @@ void Message::addNode(std::string name, int value) {
 	root[name] = value;
 }
 
+void Message::addArray(std::string name, std::vector<int> value) {
+	if (value.size() == 0) {
+		root[name] = Json::Value(Json::arrayValue);
+	} else {
+		for (int i = 0; i < (int) value.size(); i++) {
+			Json::Value tmp(value[i]);
+			root[name].append(tmp);
+		}
+	}
+}
+
 void Message::addArray(std::string name, std::vector<std::string> value) {
 	if (value.size() == 0) {
 		root[name] = Json::Value(Json::arrayValue);

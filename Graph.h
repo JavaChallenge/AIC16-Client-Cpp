@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include <Node.h>
+#include "Node.h"
 
 /**
  * Graph class.
@@ -13,14 +13,14 @@
 class Graph
 {
 public:
-    Graph(std::vector<Node*> nodes);
+    Graph(std::vector<Node*>& nodes);
 
     /**
      * get all nodes of the map.
      *
      * @return array of nodes
      */
-    std::vector<Node*> getNodes();
+    std::vector<Node*>& getNodes();
 
     /**
      * get node by its index.
@@ -33,3 +33,5 @@ public:
 private:
     std::vector<Node*> nodes;
 };
+
+#endif

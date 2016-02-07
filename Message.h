@@ -29,6 +29,7 @@ public:
 	std::string getJson();
 	void addNode(std::string name,std::string value);
 	void addNode(std::string name,int value);
+	void addArray(std::string name,std::vector<int> value);
 	void addArray(std::string name,std::vector<std::string> value);
 	void addArray(std::string name, std::vector<Message> value);
 	std::string getName();

@@ -22,7 +22,7 @@
 #include <netinet/in.h>
 #include <netdb.h>
 
-
+class Controller;
 
 class Network {
 	std::vector<SubPacket*> packets;
@@ -36,10 +36,10 @@ class Network {
 	struct hostent *server;
 	bool doReceive();
 	void startReceiving();
-	void* controllerVoid;
+	Controller* controller;
 public:
-	Network(void* controller);
-	void send(Message &msg);
+	Network(Controller* controller);
+	void sendMessage(Message &msg);
 	void parse();
 	void terminate();
 	void setConnectionData(std::string host,int port,std::string token);

@@ -11,7 +11,6 @@
 #include <ctime>
 
 #include "Message.h"
-#include "Network.h"
 #include "AI.h"
 #include "Game.h"
 #include <fstream>
@@ -19,12 +18,12 @@
 #include "EventHandler.h"
 
 const long int MAX_TIME_FOR_DO_TURN = 400;
+class Network;
 
 class Controller {
 private:
 	std::string token,ip;
 	int port;
-	EventHandler *eventHandler;
 	AI* client;
 	Game* game;
 	Network* network;

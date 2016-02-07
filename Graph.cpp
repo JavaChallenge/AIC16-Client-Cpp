@@ -1,16 +1,17 @@
 #include "Graph.h"
 
-Graph::Graph(std::vector<Node*> nodes)
+Graph::Graph(std::vector<Node*>& nodes)
 {
-	this->nodes = nodes;
+	for(auto &node : nodes)
+		this->nodes.push_back(node);
 }
 
-std::vector<Node*> Graph::getNodes()
+std::vector<Node*>& Graph::getNodes()
 {
 	return this->nodes;
 }
 
-Node * Graph::getNode(int index)
+Node* Graph::getNode(int index)
 {
 	return nodes[index];
 }

@@ -9,11 +9,11 @@
 #include <chrono>
 #include "Controller.h"
 
-Network::Network(void* controller) {
+Network::Network(Controller* controller) {
 // TODO Auto-generated constructor stub
 	sockfd = -1;
 	server = NULL;
-	this->controllerVoid = controller;
+	this->controller = controller;
 	isConnected = false;
 	isTerminated = false;
 }
@@ -47,7 +47,7 @@ void Network::connect() {
 		std::vector<std::string> tmp;
 		tmp.push_back(token);
 		msg.addArray("args", tmp);
-		send(msg);
+		this->sendMessage(msg);
 
 	} catch (std::exception& e) {
 		std::cerr << e.what() << std::endl;
@@ -101,7 +101,6 @@ void Network::parse() {
 	Message msg;
 	msg.setJson(str);
 
-	Controller* controller = (Controller*) controllerVoid;
 	controller->handleMessage(msg);
 
 	clearPacket();
@@ -113,7 +112,7 @@ void Network::clearPacket() {
 	packets.clear();
 }
 
-void Network::send(Message &msg) {
+void Network::sendMessage(Message &msg) {
 	while (true) {
 		std::string message = msg.getJson();
 		int n = write(sockfd,message.c_str(),message.size());

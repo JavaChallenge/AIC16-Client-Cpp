@@ -5,14 +5,8 @@
 
 #include "World.h"
 #include "Event.h"
-
-import client.World;
-import com.google.gson.JsonArray;
-import common.model.Event;
-import common.network.data.Message;
-
-import java.util.ArrayList;
-import java.util.function.Consumer;
+#include "EventHandler.h"
+#include "Node.h"
 
 /**
  * Model contains data which describes current state of the game.
@@ -22,145 +16,32 @@ import java.util.function.Consumer;
  */
 class Game : public World
 {
-public:
-
-	Game(Consumer<Message> sender)
-	{
-		this.sender = sender;
-	}
-
-	void handleInitMessage(Message msg)
-	{
-		myID = msg.args.get(0).getAsInt();
-
-		// graph deserialization
-		JsonArray adjListInt = msg.args.get(1).getAsJsonArray();
-
-		Node[] nodes = new Node[adjListInt.size()];
-		for (int i = 0; i < nodes.length; i++) {
-			nodes[i] = new Node(i);
-		}
-
-		for (int i = 0; i < adjListInt.size(); i++) {
-			JsonArray neighboursInt = adjListInt.get(i).getAsJsonArray();
-			Node[] neighbours = new Node[adjListInt.get(i).getAsJsonArray().size()];
-			for (int j = 0; j < neighbours.length; j++) {
-				neighbours[j] = nodes[neighboursInt.get(j).getAsInt()];
-			}
-			nodes[i].setNeighbours(neighbours);
-		}
-
-		JsonArray graphDiff = msg.args.get(2).getAsJsonArray();
-		for (int i = 0; i < graphDiff.size(); i++) {
-			JsonArray nodeDiff = graphDiff.get(i).getAsJsonArray();
-			int node = nodeDiff.get(0).getAsInt();
-			int owner = nodeDiff.get(1).getAsInt();
-			int armyCount = nodeDiff.get(2).getAsInt();
-			nodes[node].setOwner(owner);
-			nodes[node].setArmyCount(armyCount);
-		}
-
-		map = new Graph(nodes);
-
-		updateNodesList();
-
-		events = new ArrayList<>();
-	}
-
-public void handleTurnMessage(Message msg) {
-    turnStartTime = System.currentTimeMillis();
-    turn = msg.args.get(0).getAsInt();
-
-    JsonArray graphDiff = msg.args.get(1).getAsJsonArray();
-    for (int i = 0; i < graphDiff.size(); i++) {
-        JsonArray nodeDiff = graphDiff.get(i).getAsJsonArray();
-        int nodeIndex = nodeDiff.get(0).getAsInt();
-        map.getNode(nodeIndex).setOwner(nodeDiff.get(1).getAsInt());
-        map.getNode(nodeIndex).setArmyCount(nodeDiff.get(2).getAsInt());
-    }
-
-    updateNodesList();
-}
-
 private:
-    long long turnTimeout = 400; // todo
-    long long turnStartTime;
+	long long turnTimeout;
+	long long turnStartTime;
 
-    int myID;
-    int turn;
-    Graph map;
+	int myID;
+	int turn;
+	Graph* map;
 
-    std::vector<Node*> nodes[3]; // free nodes, player1's nodes, player2's nodes
-
-
-
-
-
-	private void updateNodesList()
-	{
-		vect
-		NodeArrayList[] nodesList = new NodeArrayList[]{new NodeArrayList(), new NodeArrayList(), new NodeArrayList()};
-		for (Node n : map.getNodes()) {
-			nodesList[n.getOwner() + 1].add(n);
-		}
-		for (int i = 0; i < nodes.length; i++) {
-			nodes[i] = nodesList[i].toArray(new Node[nodesList[i].size()]);
-		}
-	}
-
-    public long getTurnTimePassed() {
-        return System.currentTimeMillis() - turnStartTime;
-    }
-
-    public long getTurnRemainingTime() {
-        return turnTimeout - getTurnTimePassed();
-    }
-
-    @Override
-    public int getMyID() {
-        return myID;
-    }
-
-    @Override
-    public Graph getMap() {
-        return map;
-    }
-
-    @Override
-    public Node[] getMyNodes() {
-        return nodes[myID + 1];
-    }
-
-    @Override
-    public Node[] getOpponentNodes() {
-        return nodes[2 - myID];
-    }
-
-    @Override
-    public Node[] getFreeNodes() {
-        return nodes[0];
-    }
-
-    @Override
-    public int getTurnNumber() {
-        return turn;
-    }
-
-    @Override
-    public long getTotalTurnTime() {
-        return turnTimeout;
-    }
-
-    @Override
-    public void moveArmy(Node src, Node dst, int count) {
-        moveArmy(src.getIndex(), dst.getIndex(), count);
-    }
-
-    @Override
-    public void moveArmy(int src, int dst, int count) {
-        sender.accept(new Message(Event.EVENT, new Event("m", new Object[]{src, dst, count})));
-    }
-
+	std::vector<Node*> nodes[3];
+public:
+	Game();
+	virtual ~Game();
+	void handleInitMessage(Message msg);
+	void handleTurnMessage(Message msg);
+	void updateNodesList();
+	long long getTurnTimePassed();
+	long long getTurnRemainingTime();
+	int getMyID();
+	Graph* getMap();
+	std::vector<Node*>& getMyNodes();
+	std::vector<Node*>& getOpponentNodes();
+	std::vector<Node*>& getFreeNodes();
+	int getTurnNumber();
+	long long getTotalTurnTime();
+	void moveArmy(Node* src, Node* dst, int count);
+	void moveArmy(int src, int dst, int count);
 };
 
 #endif // _GAME_H

@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include "Constants.h"
 
 /**
  * Event class.
@@ -11,18 +12,16 @@
 class Event
 {
 public:
-	static const std::string EVENT = "event";
-
-	Event(std::string type, std::vector<std::string> args);
+	Event(std::string type);
 
     std::string getType();
-    const std::vector<std::string>& getArgs();
+    const std::vector<int>& getArgs();
 
 protected:
 	/** The type of the Event **/
     std::string type;			
     /** Arguments of the Event **/
-    std::vector<std::string> args;
+    std::vector<int> args;
 };
 
-#endif _EVENT_H
+#endif

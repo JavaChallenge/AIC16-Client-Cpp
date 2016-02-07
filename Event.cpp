@@ -1,9 +1,8 @@
 #include "Event.h"
 
-Event::Event(std::string type, std::vector<std::string> args)
+Event::Event(std::string type)
 {
 	this->type = type;
-	this->args = args;
 }
 
 std::string Event::getType()
@@ -11,7 +10,7 @@ std::string Event::getType()
 	return type;
 }
 
-const std::vector<std::string>& Event::getArgs()
+const std::vector<int>& Event::getArgs()
 {
     return args;
 }

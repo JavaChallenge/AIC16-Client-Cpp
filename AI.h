@@ -2,6 +2,7 @@
 #define _AI_H
 
 #include "Node.h"
+#include "World.h"
 
 /**
  * AI class.

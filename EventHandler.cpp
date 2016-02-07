@@ -6,6 +6,7 @@
  */
 
 #include "EventHandler.h"
+#include "Parser.h"
 #include <chrono>
 #include <future>
 
@@ -40,7 +41,7 @@ void EventHandler::addEvent(GameEvent* event) {
 	events.push(event);
 	if (!isThreadCall) {
 		isThreadCall = true;
-		thr = new std::thread(&EventHandler::handling);
+		thr = new std::thread(&EventHandler::handling,this);
 	}
 }
 
@@ -51,6 +52,8 @@ void EventHandler::handleEvent(GameEvent *eve) {
 	std::vector<Message> eventsJson;
 	eventsJson.push_back(event);
 	result.addArray(Constants::MESSAGE_KEY_ARGS, eventsJson);
-	network->send(result);
+	network->sendMessage(result);
 	delete eve;
 }
+
+EventHandler* eventHandler;
