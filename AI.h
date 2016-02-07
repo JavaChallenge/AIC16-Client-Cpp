@@ -1,4 +1,7 @@
-#include "model/Node.h"
+#ifndef _AI_H
+#define _AI_H
+
+#include "Node.h"
 
 /**
  * AI class.
@@ -13,4 +16,6 @@ class AI
 {
 public:
 	void doTurn(World *world);
-}
+};
+
+#endif // _AI_H
