@@ -13,8 +13,9 @@
 #define TIMEOUT_FOR_TRY_TO_CONNECT 1000
 
 Controller::Controller(std::string settingsFile) :
-		settingsFile(settingsFile) {
-	// TODO Auto-generated constructor stub
+		settingsFile(settingsFile)
+{
+	std::cerr << "Creating Controller" << std::endl;
 	time = 0;
 	port = 0;
 	eventHandler = NULL;
@@ -23,7 +24,9 @@ Controller::Controller(std::string settingsFile) :
 	client = NULL;
 }
 
-Controller::~Controller() {
+Controller::~Controller()
+{
+	std::cerr << "Destroying Controller" << std::endl;
 	if (eventHandler != NULL)
 		delete eventHandler;
 	if (game != NULL)
@@ -32,11 +35,12 @@ Controller::~Controller() {
 		delete network;
 	if (client != NULL)
 		delete client;
-	// TODO Auto-generated destructor stub
 }
 
-void Controller::start() {
-	try {
+void Controller::start()
+{
+	try
+	{
 		readClientData();
 		network = new Network(this);
 		network->setConnectionData(ip, port, token);
@@ -44,24 +48,26 @@ void Controller::start() {
 		game = new Game();
 		client = new AI();
 		int counter = 0;
-		while (counter < 10 && network != NULL && !network->getIsConnected()) {
+		while (counter < 10 && network != NULL && !network->getIsConnected())
+		{
 			counter++;
+			std::cerr << "Trying to connect #" << counter << std::endl;
 			network->connect();
 			if (network->getIsTerminated() == true)
 				break;
 			usleep(TIMEOUT_FOR_TRY_TO_CONNECT * 1000);
-//			boost::this_thread::sleep_for(
-//					boost::chrono::milliseconds(TIMEOUT_FOR_TRY_TO_CONNECT));
 		}
-		/*
-		 * Connection Terminated
-		 */
+
+		std::cerr << "Connection Terminated" << std::endl;
 
 		delete eventHandler;
 		delete game;
 		delete client;
 		delete network;
-	} catch (const char* str) {
+
+	}
+	catch (const char* str)
+	{
 		std::cerr << str << std::endl;
 	}
 }

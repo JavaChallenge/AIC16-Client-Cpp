@@ -24,20 +24,23 @@ void Network::setConnectionData(std::string host, int port, std::string token) {
 	this->token = token;
 }
 
-void Network::connect() {
-	try {
+void Network::connect()
+{
+	try
+	{
 		isConnected = false;
 		char buffer[256];
 		this->sockfd = socket(AF_INET, SOCK_STREAM, 0);
 		if (this->sockfd < 0)
 			throw("ERROR opening socket");
 		this->server = gethostbyname(this->host.c_str());
-		if (server == NULL) {
+		if (server == NULL)
+		{
 			throw("ERROR, no such host\n");
 		}
 		bzero((char *) &serv_addr, sizeof(serv_addr));
 		serv_addr.sin_family = AF_INET;
-		bcopy((char *) server->h_addr,(char *)&serv_addr.sin_addr.s_addr,server->h_length);
+		bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
 		serv_addr.sin_port = htons(port);
 		if (::connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0)
 			throw("ERROR connecting");
@@ -113,13 +116,14 @@ void Network::clearPacket() {
 }
 
 void Network::sendMessage(Message &msg) {
-	while (true) {
+	int n = -1;
+	while (n < 0) {
 		std::string message = msg.getJson();
-		int n = write(sockfd,message.c_str(),message.size());
-		if (n < 0) {
-			std::cerr << "!!!\n";
-			throw "Connection closed by peer";
-		}
+		n = write(sockfd,message.c_str(),message.size());
+//		if (n < 0) {
+//			std::cerr << "!!!\n";
+//			throw "Connection closed by peer";
+//		}
 	}
 }
 

@@ -8,7 +8,7 @@ void AI::doTurn(World *world)
 	/** Fill this method. We've presented a stupid AI as an example! **/
 
 	std::vector<Node*> myNodes = world->getMyNodes();
-	for(auto & source : myNodes)
+	for(auto& source : myNodes)
 	{
 		/** Get neighbours **/
 		std::vector<Node*> neighbours = source->getNeighbours();
