@@ -51,58 +51,73 @@ void Network::connect()
 		tmp.push_back(token);
 		msg.addArray("args", tmp);
 		this->sendMessage(msg);
-
-	} catch (std::exception& e) {
+	}
+	catch (std::exception& e)
+	{
 		std::cerr << e.what() << std::endl;
 		return;
 	}
 	isConnected = true;
 	isTerminated = false;
-	std::cerr << "Network connected\n";
+	std::cerr << "Network Connected" << std::endl;
 	startReceiving();
 }
 
-void Network::startReceiving() {
-	while (isConnected && !isTerminated) {
+void Network::startReceiving()
+{
+	while (isConnected && !isTerminated)
+	{
 		if (!doReceive())
 			break;
 	}
 	terminate();
 }
 
-bool Network::doReceive() {
-	try {
+bool Network::doReceive()
+{
+	try
+	{
 		char buf[MAX_LEN_OF_TCP];
+		bzero(buf,MAX_LEN_OF_TCP);
 		int sizeMessage = read(sockfd,buf,MAX_LEN_OF_TCP);
+
+		std::cerr << "Received Message:\n" << buf << std::endl;
 
 		SubPacket *cache = new SubPacket(MAX_LEN_OF_TCP);
 		packets.push_back(cache);
-		for (int i = 0; i < sizeMessage; i++) {
-			if (buf[i] != '\0') {
+		for (int i = 0; i < sizeMessage; i++)
+		{
+			if (buf[i] != '\0')
+			{
 				packets[packets.size() - 1]->push(buf[i]);
-			} else {
+			}
+			else
+			{
 				parse();
 				packets.push_back(new SubPacket(MAX_LEN_OF_TCP));
 			}
 		}
 		if (sizeMessage < 0)
 			return false;
-	} catch (std::exception& e) {
+	}
+	catch (std::exception& e)
+	{
 		std::cerr << e.what() << std::endl;
 		return false;
 	}
 	return true;
 }
 
-void Network::parse() {
-
+void Network::parse()
+{
 	std::string str;
-	for (int i = 0; i < (int) packets.size(); i++) {
+	for (int i = 0; i < (int) packets.size(); i++)
+	{
 		str.append(packets[i]->buffer.begin(),
-				packets[i]->buffer.begin() + packets[i]->index);
+				   packets[i]->buffer.begin() + packets[i]->index);
 	}
 
-	std::cerr << "packet received : " << str << "\n";
+	std::cerr << "Packet Received : " << str << std::endl;
 	Message msg;
 	msg.setJson(str);
 
@@ -115,15 +130,18 @@ void Network::parse() {
 	clearPacket();
 }
 
-void Network::clearPacket() {
+void Network::clearPacket()
+{
 	for (int i = 0; i < (int) packets.size(); i++)
 		delete packets[i];
 	packets.clear();
 }
 
-void Network::sendMessage(Message &msg) {
+void Network::sendMessage(Message &msg)
+{
 	int n = -1;
-	while (n < 0) {
+	while (n < 0)
+	{
 		std::string message = msg.getJson();
 		n = write(sockfd,message.c_str(),message.size());
 //		if (n < 0) {

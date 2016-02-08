@@ -16,8 +16,11 @@ Message::~Message() {
 	// TODO Auto-generated destructor stub
 }
 
-void Message::setJson(std::string &str) {
+void Message::setJson(std::string &str)
+{
+	std::cerr << "Trying to Parse!" << std::endl;
 	reader.parse(str, root, false);
+	std::cerr << "Parsed!" << std::endl;
 }
 
 std::string Message::getJson() {

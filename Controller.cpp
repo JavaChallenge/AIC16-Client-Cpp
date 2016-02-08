@@ -91,14 +91,20 @@ void Controller::readClientData() {
 	port = msg["port"].asInt();
 }
 
-void Controller::handleMessage(Message &msg) {
+void Controller::handleMessage(Message &msg)
+{
 	PRINT(msg.getName());
-	if (msg.getName() == Constants::MESSAGE_KEY_TURN) {
+	if (msg.getName() == Constants::MESSAGE_KEY_TURN)
+	{
 		handleTurnMessage(msg);
-	} else if (msg.getName() == Constants::MESSAGE_KEY_INIT)
+	}
+	else if (msg.getName() == Constants::MESSAGE_KEY_INIT)
+	{
 		handleInitMessage(msg);
+	}
 	else if (msg.getName() == Constants::MESSAGE_KEY_SHUTDOWN
-			|| msg.getName() == Constants::MESSAGE_KEY_WRONG_TOKEN) {
+			|| msg.getName() == Constants::MESSAGE_KEY_WRONG_TOKEN)
+	{
 		network->terminate();
 	}
 }
@@ -112,22 +118,25 @@ void Controller::handleInitMessage(Message &msg) {
 	game->handleInitMessage(msg);
 }
 
-void Controller::run() {
+void Controller::run()
+{
 	client->doTurn(game);
 }
 
-void Controller::doTurn() {
-	try {
-		std::thread thr(&Controller::run,this);
-		usleep(MAX_TIME_FOR_DO_TURN*1000);
+void Controller::doTurn()
+{
+	std::cerr << "Controller::doTurn Called" << std::endl;
+	try
+	{
+		std::thread thr(&Controller::run, this);
+		usleep(MAX_TIME_FOR_DO_TURN * 1000);
 
-//		boost::thread thr(boost::bind(&Controller::run, this));
-//		boost::this_thread::sleep_for(
-//				boost::chrono::milliseconds(MAX_TIME_FOR_DO_TURN));
 		if (eventHandler->getIsThreadCall())
 			eventHandler->getThr()->join();
-
-	} catch (...) {
-		std::cerr << "!!!\n";
 	}
+	catch (...)
+	{
+		std::cerr << "Exception in Controller::doTurn" << std::endl;
+	}
+	std::cerr << "Controller::doTurn Returned" << std::endl;
 }

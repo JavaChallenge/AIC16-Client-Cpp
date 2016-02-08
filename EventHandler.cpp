@@ -10,27 +10,31 @@
 #include <chrono>
 #include <future>
 
-EventHandler::EventHandler(Network *network) {
-	// TODO Auto-generated constructor stub
+EventHandler::EventHandler(Network *network)
+{
 	this->network = network;
 	isThreadCall = false;
 	thr = NULL;
 }
 
-bool EventHandler::getIsThreadCall() {
+bool EventHandler::getIsThreadCall()
+{
 	return isThreadCall;
 }
 
-std::thread* EventHandler::getThr() {
+std::thread * EventHandler::getThr()
+{
 	return thr;
 }
 
-EventHandler::~EventHandler() {
-	// TODO Auto-generated destructor stub
+EventHandler::~EventHandler()
+{
 }
 
-void EventHandler::handling() {
-	while (events.getSize() != 0) {
+void EventHandler::handling()
+{
+	while (events.getSize() != 0)
+	{
 		handleEvent(events.pop());
 	}
 	delete thr;
@@ -38,6 +42,7 @@ void EventHandler::handling() {
 }
 
 void EventHandler::addEvent(GameEvent* event) {
+	std::cerr << "Event::addEvent Called" << std::endl;
 	events.push(event);
 	if (!isThreadCall) {
 		isThreadCall = true;
@@ -45,7 +50,9 @@ void EventHandler::addEvent(GameEvent* event) {
 	}
 }
 
-void EventHandler::handleEvent(GameEvent *eve) {
+void EventHandler::handleEvent(GameEvent *eve)
+{
+	std::cerr << "EventHandler::handleEvent Called" << std::endl;
 	Message result, event;
 	result.addNode(Constants::MESSAGE_KEY_NAME, Constants::MESSAGE_KEY_EVENT);
 	parser.generateEvent(event, *eve);

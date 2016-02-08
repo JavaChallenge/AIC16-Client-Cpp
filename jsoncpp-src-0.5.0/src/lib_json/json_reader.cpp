@@ -117,9 +117,7 @@ Reader::Reader( const Features &features )
 {
 }
 
-
-bool
-Reader::parse( const std::string &document, 
+bool Reader::parse( const std::string &document,
                Value &root,
                bool collectComments )
 {

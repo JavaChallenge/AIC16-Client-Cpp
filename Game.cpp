@@ -2,17 +2,21 @@
 #include <ctime>
 #include "util.h"
 
-Game::Game() {
+Game::Game()
+{
+	turnStartTime = -1;
 	map = NULL;
 }
 
-Game::~Game() {
+Game::~Game()
+{
 	if(map != NULL)
 		delete map;
 }
 
-void Game::handleInitMessage(Message msg) {
-	std::cerr << "handleInitMessage called\n";
+void Game::handleInitMessage(Message msg)
+{
+	std::cerr << "handleInitMessage Called" << std::endl;
 	Json::Value &argsArray = msg.getArray("args");
 
 	Json::UInt I=0;
@@ -26,15 +30,18 @@ void Game::handleInitMessage(Message msg) {
 	std::cerr << adjListInt.size() << std::endl;
 
 	std::vector<Node*> nodes;
-	for (int i = 0; i < (int)adjListInt.size(); i++) {
+	for (int i = 0; i < (int)adjListInt.size(); i++)
+	{
 		nodes.push_back(new Node(i));
 	}
 
-	for (int i = 0; i < (int)adjListInt.size(); i++) {
+	for (int i = 0; i < (int)adjListInt.size(); i++)
+	{
 		Json::Value &neighboursInt = adjListInt[i];
 		std::vector<Node*> neighbours;
 		std::cerr << i << " :    ";
-		for (int j = 0; j < (int)neighboursInt.size(); j++) {
+		for (int j = 0; j < (int)neighboursInt.size(); j++)
+		{
 			std::cerr << neighboursInt[j].asInt() << " ";
 			neighbours.push_back(nodes[neighboursInt[j].asInt()]);
 		}
@@ -43,7 +50,8 @@ void Game::handleInitMessage(Message msg) {
 	}
 
 	Json::Value &graphDiff = argsArray[++I];
-	for (int i = 0; i < (int)graphDiff.size(); i++) {
+	for (int i = 0; i < (int)graphDiff.size(); i++)
+	{
 		Json::Value &nodeDiff = graphDiff[i];
 		int node = nodeDiff[(Json::UInt)0].asInt();
 		int owner = nodeDiff[1].asInt();
@@ -57,22 +65,26 @@ void Game::handleInitMessage(Message msg) {
 	updateNodesList();
 }
 
-void Game::handleTurnMessage(Message msg) {
+void Game::handleTurnMessage(Message msg)
+{
+	std::cerr << "handleTurnMessage Called" << std::endl;
+
 	turnStartTime = time(0);
 
 	Json::Value &argsArray = msg.getArray("args");
 	Json::UInt I=0;
-	turn = argsArray[++I].asInt();
+	turn = argsArray[I++].asInt(); /** EDITED BY MEHRAN : USED TO BE ++I **/
 	PRINT(turn);
 
-	Json::Value &graphDiff = argsArray[++I];
+	Json::Value &graphDiff = argsArray[I++];
 	PRINT(graphDiff.size());
-	for (int i = 0; i < (int)graphDiff.size(); i++) {
+	for (int i = 0; i < (int)graphDiff.size(); i++)
+	{
 		Json::Value &nodeDiff = graphDiff[i];
 		Json::UInt J=0;
-		int nodeIndex = nodeDiff[++J].asInt();
-		map->getNode(nodeIndex)->setOwner(nodeDiff[++J].asInt());
-		map->getNode(nodeIndex)->setArmyCount(nodeDiff[++J].asInt());
+		int nodeIndex = nodeDiff[J++].asInt(); /** EDITED BY MEHRAN : USED TO BE ++J **/
+		map->getNode(nodeIndex)->setOwner(nodeDiff[J++].asInt());
+		map->getNode(nodeIndex)->setArmyCount(nodeDiff[J++].asInt());
 	}
 
 	updateNodesList();
@@ -80,11 +92,14 @@ void Game::handleTurnMessage(Message msg) {
 
 void Game::updateNodesList()
 {
+	std::cerr << "updateNodeList Called" << std::endl;
 	for(int i = 0; i < 3; i++)
 		this->nodes[i].clear();
-	for (Node* n : this->map->getNodes()) {
+	for (Node* n : this->map->getNodes())
+	{
 		nodes[n->getOwner() + 1].push_back(n);
 	}
+	std::cerr << "updateNodeList Returned" << std::endl;
 }
 
 long long Game::getTurnTimePassed() {
@@ -123,14 +138,18 @@ long long Game::getTotalTurnTime() {
 	return this->turnTimeout;
 }
 
-void Game::moveArmy(Node* src, Node* dst, int count) {
+void Game::moveArmy(Node* src, Node* dst, int count)
+{
 	this->moveArmy(src->getIndex(), dst->getIndex(), count);
 }
 
-void Game::moveArmy(int src, int dst, int count) {
+void Game::moveArmy(int src, int dst, int count)
+{
+	std::cerr << "Game::moveArmy Called" << std::endl;
 	GameEvent* gameEvent = new GameEvent(Constants::TYPE_MOVE);
 	gameEvent->addArg(src);
 	gameEvent->addArg(dst);
 	gameEvent->addArg(count);
 	eventHandler->addEvent(gameEvent);
+	std::cerr << "Game::moveArmy Returned" << std::endl;
 }
