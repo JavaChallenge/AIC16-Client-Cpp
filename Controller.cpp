@@ -120,6 +120,7 @@ void Controller::handleInitMessage(Message &msg) {
 
 void Controller::run()
 {
+	std::cerr << "Controller run function called\n";
 	client->doTurn(game);
 }
 
@@ -131,8 +132,8 @@ void Controller::doTurn()
 		std::thread thr(&Controller::run, this);
 		usleep(MAX_TIME_FOR_DO_TURN * 1000);
 
-		if (eventHandler->getIsThreadCall())
-			eventHandler->getThr()->join();
+//		if (eventHandler->getIsThreadCall())
+//			eventHandler->getThr()->join();
 	}
 	catch (...)
 	{

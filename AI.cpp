@@ -2,16 +2,21 @@
 
 #include <vector>
 #include <cstdlib>
+#include <iostream>
 
 void AI::doTurn(World *world)
 {
 	/** Fill this method. We've presented a stupid AI as an example! **/
 
-	std::vector<Node*> myNodes = world->getMyNodes();
+	std::cerr << "AI::doTurn called\n";
+	std::vector<Node*>& myNodes = world->getMyNodes();
+	std::cerr << myNodes.size() << std::endl;
 	for(auto& source : myNodes)
 	{
+		std::cerr << source->getIndex() << std::endl;
 		/** Get neighbours **/
-		std::vector<Node*> neighbours = source->getNeighbours();
+		const std::vector<Node*>& neighbours = source->getNeighbours();
+		std::cerr << "!!!! " << neighbours.size() << std::endl;
 		if (neighbours.size() > 0)
 		{
 			/** Select a random neighbour **/
@@ -20,4 +25,5 @@ void AI::doTurn(World *world)
 			world->moveArmy(source, destination, source->getArmyCount() / 2);
 		}
 	}
+	std::cerr << "AI:doTurn function end correctly\n";
 }

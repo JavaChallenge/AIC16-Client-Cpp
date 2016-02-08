@@ -20,13 +20,13 @@ void Game::handleInitMessage(Message msg)
 	Json::Value &argsArray = msg.getArray("args");
 
 	Json::UInt I=0;
-	this->turnTimeout = argsArray[I].asInt();
+	this->turnTimeout = argsArray[I++].asInt();
 
-	this->myID = argsArray[++I].asInt();
+	this->myID = argsArray[I++].asInt();
 	PRINT(this->myID);
 
 	// graph deserialization
-	Json::Value &adjListInt = argsArray[++I];
+	Json::Value &adjListInt = argsArray[I++];
 	std::cerr << adjListInt.size() << std::endl;
 
 	std::vector<Node*> nodes;
@@ -49,7 +49,7 @@ void Game::handleInitMessage(Message msg)
 		nodes[i]->setNeighbours(neighbours);
 	}
 
-	Json::Value &graphDiff = argsArray[++I];
+	Json::Value &graphDiff = argsArray[I++];
 	for (int i = 0; i < (int)graphDiff.size(); i++)
 	{
 		Json::Value &nodeDiff = graphDiff[i];

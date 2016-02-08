@@ -17,7 +17,7 @@ Node::~Node() {
 }
 
 const std::vector<Node*>& Node::getNeighbours() {
-	return this->getNeighbours();
+	return this->neighbours;
 }
 
 int Node::getIndex() {
@@ -34,7 +34,7 @@ int Node::getArmyCount() {
 
 void Node::setNeighbours(const std::vector<Node*> neighbours) {
 	this->neighbours.clear();
-	for(auto neighbour : neighbours)
+	for(auto &neighbour : neighbours)
 		this->neighbours.push_back(neighbour);
 }
 
