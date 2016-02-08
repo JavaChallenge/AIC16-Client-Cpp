@@ -6,6 +6,7 @@
  */
 
 #include "Controller.h"
+#include "util.h"
 #include "Network.h"
 #include <chrono>
 #include <unistd.h>
@@ -91,6 +92,7 @@ void Controller::readClientData() {
 }
 
 void Controller::handleMessage(Message &msg) {
+	PRINT(msg.getName());
 	if (msg.getName() == Constants::MESSAGE_KEY_TURN) {
 		handleTurnMessage(msg);
 	} else if (msg.getName() == Constants::MESSAGE_KEY_INIT)

@@ -1,5 +1,6 @@
 #include "Game.h"
 #include <ctime>
+#include "util.h"
 
 Game::Game() {
 	map = NULL;
@@ -11,14 +12,18 @@ Game::~Game() {
 }
 
 void Game::handleInitMessage(Message msg) {
+	std::cerr << "handleInitMessage called\n";
 	Json::Value &argsArray = msg.getArray("args");
 
 	Json::UInt I=0;
-	this->myID = argsArray[I].asInt();
+	this->turnTimeout = argsArray[I].asInt();
+
+	this->myID = argsArray[++I].asInt();
+	PRINT(this->myID);
 
 	// graph deserialization
-	I=1;
-	Json::Value &adjListInt = argsArray[I];
+	Json::Value &adjListInt = argsArray[++I];
+	std::cerr << adjListInt.size() << std::endl;
 
 	std::vector<Node*> nodes;
 	for (int i = 0; i < (int)adjListInt.size(); i++) {
@@ -28,13 +33,16 @@ void Game::handleInitMessage(Message msg) {
 	for (int i = 0; i < (int)adjListInt.size(); i++) {
 		Json::Value &neighboursInt = adjListInt[i];
 		std::vector<Node*> neighbours;
+		std::cerr << i << " :    ";
 		for (int j = 0; j < (int)neighboursInt.size(); j++) {
+			std::cerr << neighboursInt[j].asInt() << " ";
 			neighbours.push_back(nodes[neighboursInt[j].asInt()]);
 		}
+		std::cerr << "\n";
 		nodes[i]->setNeighbours(neighbours);
 	}
 
-	Json::Value &graphDiff = argsArray[2];
+	Json::Value &graphDiff = argsArray[++I];
 	for (int i = 0; i < (int)graphDiff.size(); i++) {
 		Json::Value &nodeDiff = graphDiff[i];
 		int node = nodeDiff[(Json::UInt)0].asInt();
@@ -53,14 +61,18 @@ void Game::handleTurnMessage(Message msg) {
 	turnStartTime = time(0);
 
 	Json::Value &argsArray = msg.getArray("args");
-	turn = argsArray[(Json::UInt)0].asInt();
+	Json::UInt I=0;
+	turn = argsArray[++I].asInt();
+	PRINT(turn);
 
-	Json::Value &graphDiff = argsArray[1];
+	Json::Value &graphDiff = argsArray[++I];
+	PRINT(graphDiff.size());
 	for (int i = 0; i < (int)graphDiff.size(); i++) {
 		Json::Value &nodeDiff = graphDiff[i];
-		int nodeIndex = nodeDiff[(Json::UInt)0].asInt();
-		map->getNode(nodeIndex)->setOwner(nodeDiff[1].asInt());
-		map->getNode(nodeIndex)->setArmyCount(nodeDiff[2].asInt());
+		Json::UInt J=0;
+		int nodeIndex = nodeDiff[++J].asInt();
+		map->getNode(nodeIndex)->setOwner(nodeDiff[++J].asInt());
+		map->getNode(nodeIndex)->setArmyCount(nodeDiff[++J].asInt());
 	}
 
 	updateNodesList();

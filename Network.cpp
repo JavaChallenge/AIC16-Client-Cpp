@@ -58,6 +58,7 @@ void Network::connect()
 	}
 	isConnected = true;
 	isTerminated = false;
+	std::cerr << "Network connected\n";
 	startReceiving();
 }
 
@@ -101,10 +102,15 @@ void Network::parse() {
 				packets[i]->buffer.begin() + packets[i]->index);
 	}
 
+	std::cerr << "packet received : " << str << "\n";
 	Message msg;
 	msg.setJson(str);
 
+	std::cerr << "Json set\n";
+	std::cerr << "trying to handle message\n";
+
 	controller->handleMessage(msg);
+	std::cerr << "message handling done\n";
 
 	clearPacket();
 }
