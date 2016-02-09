@@ -101,6 +101,15 @@ public:
 	 * @param count number of armies you want to move from source to destination.
 	 */
 	virtual void moveArmy(int src, int dst, int count) = 0;
+
+	virtual int getEscape() = 0;
+	virtual int getNodeBonus() = 0;
+	virtual int getEdgeBonus() = 0;
+	virtual int getFirstlvl() = 0;
+	virtual int getSecondlvl() = 0;
+	virtual double getLossRate1() = 0;
+	virtual double getLossRate2() = 0;
+
 };
 
 #endif // _WORLD_H

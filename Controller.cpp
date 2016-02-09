@@ -60,7 +60,6 @@ void Controller::start()
 			counter++;
 			std::cerr << "Trying to connect #" << counter << std::endl;
 			network->connect();
-			PRINT(network->getIsTerminated());
 			if (network->getIsTerminated() == true)
 				break;
 			usleep(retryDelay * 1000);
@@ -116,7 +115,7 @@ void Controller::doTurn()
 	try
 	{
 		std::thread *thr = new std::thread(&Controller::run, this);
-		usleep(MAX_TIME_FOR_DO_TURN * 1000);
+		usleep(game->getTotalTurnTime() * 1000);
 		thr->join();
 		if(thr != NULL)
 			delete thr;

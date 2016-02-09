@@ -20,11 +20,20 @@ private:
 	long long turnTimeout;
 	long long turnStartTime;
 
+	int escape;
+	int nodeBonus;
+	int edgeBonus;
+	int firstlvl;
+	int secondlvl;
+	double lossRate1;
+	double lossRate2;
+
 	int myID;
 	int turn;
 	Graph* map;
 
 	std::vector<Node*> nodes[3];
+	void setConstants(Json::Value &msg);
 public:
 	Game();
 	virtual ~Game();
@@ -33,6 +42,15 @@ public:
 	void updateNodesList();
 	long long getTurnTimePassed();
 	long long getTurnRemainingTime();
+
+	int getEscape();
+	int getNodeBonus();
+	int getEdgeBonus();
+	int getFirstlvl();
+	int getSecondlvl();
+	double getLossRate1();
+	double getLossRate2();
+
 	int getMyId();
 	Graph* getMap();
 	std::vector<Node*>& getMyNodes();

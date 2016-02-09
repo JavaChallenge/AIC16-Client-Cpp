@@ -14,12 +14,51 @@ Game::~Game()
 		delete map;
 }
 
+void Game::setConstants(Json::Value &msg) {
+	this->turnTimeout = msg["turnTimeout"].asInt();
+	this->escape = msg["escape"].asInt();
+	this->nodeBonus = msg["nodeBonus"].asInt();
+	this->edgeBonus = msg["edgeBonus"].asInt();
+	this->firstlvl = msg["firstlvl"].asInt();
+	this->secondlvl = msg["secondlvl"].asInt();
+	this->lossRate1 = msg["lossRate1"].asInt();
+	this->lossRate2 = msg["lossRate2"].asInt();
+}
+
+int Game::getEscape() {
+	return this->escape;
+}
+
+int Game::getNodeBonus() {
+	return this->nodeBonus;
+}
+int Game::getEdgeBonus() {
+	return this->edgeBonus;
+}
+
+int Game::getFirstlvl() {
+	return this->firstlvl;
+}
+
+int Game::getSecondlvl() {
+	return this->secondlvl;
+}
+
+double Game::getLossRate1() {
+	return this->lossRate1;
+}
+
+double Game::getLossRate2() {
+	return this->lossRate2;
+}
+
 void Game::handleInitMessage(Message msg)
 {
 	Json::Value &argsArray = msg.getArray("args");
 
 	Json::UInt I=0;
-	this->turnTimeout = argsArray[I++].asInt();
+	Json::Value &constants = argsArray[I++];
+	this->setConstants(constants);
 
 	this->myID = argsArray[I++].asInt();
 
