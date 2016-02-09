@@ -24,10 +24,10 @@ class Controller {
 private:
 	std::string token,ip;
 	int port;
+	int retryDelay;
 	AI* client;
 	Game* game;
 	Network* network;
-	std::string settingsFile;
 	time_t time;
 	void handleTurnMessage(Message &msg);
 	void handleInitMessage(Message &msg);
@@ -36,9 +36,8 @@ private:
 	void run();
 public:
 	void handleMessage(Message &msg);
-	Controller(std::string settingsFile);
+	Controller(std::string* args);
 	void start();
-	void readClientData();
 	bool getIsThreadCall();
 	virtual ~Controller();
 };

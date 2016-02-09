@@ -11,13 +11,22 @@
 #include <chrono>
 #include <unistd.h>
 
-#define TIMEOUT_FOR_TRY_TO_CONNECT 1000
+int toInt(std::string str) {
+	int ans=0;
+	for(int i = 0; i < (int)str.size(); i++) {
+		ans*=10;
+		ans+=str[i]-'0';
+	}
+	return ans;
+}
 
-Controller::Controller(std::string settingsFile) :
-		settingsFile(settingsFile)
+Controller::Controller(std::string *args)
 {
+	ip = args[0];
+	port = toInt(args[1]);
+	token = args[2];
+	retryDelay = toInt(args[3]);
 	time = 0;
-	port = 0;
 	eventHandler = NULL;
 	game = NULL;
 	network = NULL;
@@ -40,7 +49,6 @@ void Controller::start()
 {
 	try
 	{
-		readClientData();
 		network = new Network(this);
 		network->setConnectionData(ip, port, token);
 		eventHandler = new EventHandler(network);
@@ -52,9 +60,10 @@ void Controller::start()
 			counter++;
 			std::cerr << "Trying to connect #" << counter << std::endl;
 			network->connect();
+			PRINT(network->getIsTerminated());
 			if (network->getIsTerminated() == true)
 				break;
-			usleep(TIMEOUT_FOR_TRY_TO_CONNECT * 1000);
+			usleep(retryDelay * 1000);
 		}
 
 		std::cerr << "Connection Terminated" << std::endl;
@@ -69,24 +78,6 @@ void Controller::start()
 	{
 		std::cerr << str << std::endl;
 	}
-}
-
-void Controller::readClientData() {
-	std::ifstream fin(settingsFile.c_str());
-	if (!fin.is_open()) {
-		throw "Connection.conf doesn't exist";
-	}
-	std::string str;
-	char tmp[1000];
-	while (fin.getline(tmp, 1000)) {
-		str.append(tmp);
-	}
-	Json::Value msg;
-	Json::Reader reader;
-	reader.parse(str, msg);
-	token = msg["token"].asString();
-	ip = msg["ip"].asString();
-	port = msg["port"].asInt();
 }
 
 void Controller::handleMessage(Message &msg)

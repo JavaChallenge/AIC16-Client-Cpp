@@ -57,6 +57,10 @@ void Network::connect()
 		std::cerr << e.what() << std::endl;
 		return;
 	}
+	catch (...) {
+		std::cerr << "exception caught in network::connect()\n";
+		return;
+	}
 	isConnected = true;
 	isTerminated = false;
 	startReceiving();
