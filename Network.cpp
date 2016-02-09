@@ -59,7 +59,6 @@ void Network::connect()
 	}
 	isConnected = true;
 	isTerminated = false;
-	std::cerr << "Network Connected" << std::endl;
 	startReceiving();
 }
 
@@ -80,8 +79,6 @@ bool Network::doReceive()
 		char buf[MAX_LEN_OF_TCP];
 		bzero(buf,MAX_LEN_OF_TCP);
 		int sizeMessage = read(sockfd,buf,MAX_LEN_OF_TCP);
-
-		std::cerr << "Received Message:\n" << buf << std::endl;
 
 		SubPacket *cache = new SubPacket(MAX_LEN_OF_TCP);
 		packets.push_back(cache);
@@ -117,15 +114,10 @@ void Network::parse()
 				   packets[i]->buffer.begin() + packets[i]->index);
 	}
 
-	std::cerr << "Packet Received : " << str << std::endl;
 	Message msg;
 	msg.setJson(str);
 
-	std::cerr << "Json set\n";
-	std::cerr << "trying to handle message\n";
-
 	controller->handleMessage(msg);
-	std::cerr << "message handling done\n";
 
 	clearPacket();
 }
@@ -158,8 +150,6 @@ void Network::terminate() {
 		close(sockfd);
 		sockfd = -1;
 	}
-	if(server != NULL)
-		delete(server);
 }
 
 Network::~Network() {

@@ -16,7 +16,6 @@
 Controller::Controller(std::string settingsFile) :
 		settingsFile(settingsFile)
 {
-	std::cerr << "Creating Controller" << std::endl;
 	time = 0;
 	port = 0;
 	eventHandler = NULL;
@@ -27,7 +26,6 @@ Controller::Controller(std::string settingsFile) :
 
 Controller::~Controller()
 {
-	std::cerr << "Destroying Controller" << std::endl;
 	if (eventHandler != NULL)
 		delete eventHandler;
 	if (game != NULL)
@@ -93,7 +91,6 @@ void Controller::readClientData() {
 
 void Controller::handleMessage(Message &msg)
 {
-	PRINT(msg.getName());
 	if (msg.getName() == Constants::MESSAGE_KEY_TURN)
 	{
 		handleTurnMessage(msg);
@@ -120,18 +117,18 @@ void Controller::handleInitMessage(Message &msg) {
 
 void Controller::run()
 {
-	std::cerr << "Controller run function called\n";
 	client->doTurn(game);
 }
 
 void Controller::doTurn()
 {
-	std::cerr << "Controller::doTurn Called" << std::endl;
 	try
 	{
-		std::thread thr(&Controller::run, this);
+		std::thread *thr = new std::thread(&Controller::run, this);
 		usleep(MAX_TIME_FOR_DO_TURN * 1000);
-
+		thr->join();
+		if(thr != NULL)
+			delete thr;
 //		if (eventHandler->getIsThreadCall())
 //			eventHandler->getThr()->join();
 	}
@@ -139,5 +136,4 @@ void Controller::doTurn()
 	{
 		std::cerr << "Exception in Controller::doTurn" << std::endl;
 	}
-	std::cerr << "Controller::doTurn Returned" << std::endl;
 }

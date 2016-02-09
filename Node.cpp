@@ -16,7 +16,7 @@ Node::~Node() {
 	// TODO Auto-generated destructor stub
 }
 
-const std::vector<Node*>& Node::getNeighbours() {
+std::vector<Node*>& Node::getNeighbours() {
 	return this->neighbours;
 }
 
@@ -32,7 +32,7 @@ int Node::getArmyCount() {
 	return this->armyCount;
 }
 
-void Node::setNeighbours(const std::vector<Node*> neighbours) {
+void Node::setNeighbours(const std::vector<Node*>& neighbours) {
 	this->neighbours.clear();
 	for(auto &neighbour : neighbours)
 		this->neighbours.push_back(neighbour);

@@ -22,7 +22,7 @@ public:
 	 *
 	 * @return ID of your team
 	 */
-	virtual int getMyID() = 0;
+	virtual int getMyId() = 0;
 
 	/**
 	 * get map of the game.

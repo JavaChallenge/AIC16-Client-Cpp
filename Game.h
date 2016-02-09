@@ -33,7 +33,7 @@ public:
 	void updateNodesList();
 	long long getTurnTimePassed();
 	long long getTurnRemainingTime();
-	int getMyID();
+	int getMyId();
 	Graph* getMap();
 	std::vector<Node*>& getMyNodes();
 	std::vector<Node*>& getOpponentNodes();

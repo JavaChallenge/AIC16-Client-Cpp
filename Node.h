@@ -20,7 +20,7 @@ public:
 	Node(int index);
 	virtual ~Node();
 
-	const std::vector<Node*>& getNeighbours(); // get neighbours of this node.
+	std::vector<Node*>& getNeighbours(); // get neighbours of this node.
 
 	int getIndex(); // get index of the node. useful when you want to move and you need index of a node.
 
@@ -39,7 +39,7 @@ public:
 	 */
 	int getArmyCount();
 
-    void setNeighbours(const std::vector<Node*> neighbours);
+    void setNeighbours(const std::vector<Node*>& neighbours);
 
     void setOwner(int owner);
 

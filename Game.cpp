@@ -16,18 +16,15 @@ Game::~Game()
 
 void Game::handleInitMessage(Message msg)
 {
-	std::cerr << "handleInitMessage Called" << std::endl;
 	Json::Value &argsArray = msg.getArray("args");
 
 	Json::UInt I=0;
 	this->turnTimeout = argsArray[I++].asInt();
 
 	this->myID = argsArray[I++].asInt();
-	PRINT(this->myID);
 
 	// graph deserialization
 	Json::Value &adjListInt = argsArray[I++];
-	std::cerr << adjListInt.size() << std::endl;
 
 	std::vector<Node*> nodes;
 	for (int i = 0; i < (int)adjListInt.size(); i++)
@@ -39,13 +36,10 @@ void Game::handleInitMessage(Message msg)
 	{
 		Json::Value &neighboursInt = adjListInt[i];
 		std::vector<Node*> neighbours;
-		std::cerr << i << " :    ";
 		for (int j = 0; j < (int)neighboursInt.size(); j++)
 		{
-			std::cerr << neighboursInt[j].asInt() << " ";
 			neighbours.push_back(nodes[neighboursInt[j].asInt()]);
 		}
-		std::cerr << "\n";
 		nodes[i]->setNeighbours(neighbours);
 	}
 
@@ -67,17 +61,13 @@ void Game::handleInitMessage(Message msg)
 
 void Game::handleTurnMessage(Message msg)
 {
-	std::cerr << "handleTurnMessage Called" << std::endl;
-
 	turnStartTime = time(0);
 
 	Json::Value &argsArray = msg.getArray("args");
 	Json::UInt I=0;
 	turn = argsArray[I++].asInt(); /** EDITED BY MEHRAN : USED TO BE ++I **/
-	PRINT(turn);
 
 	Json::Value &graphDiff = argsArray[I++];
-	PRINT(graphDiff.size());
 	for (int i = 0; i < (int)graphDiff.size(); i++)
 	{
 		Json::Value &nodeDiff = graphDiff[i];
@@ -92,14 +82,12 @@ void Game::handleTurnMessage(Message msg)
 
 void Game::updateNodesList()
 {
-	std::cerr << "updateNodeList Called" << std::endl;
 	for(int i = 0; i < 3; i++)
 		this->nodes[i].clear();
 	for (Node* n : this->map->getNodes())
 	{
 		nodes[n->getOwner() + 1].push_back(n);
 	}
-	std::cerr << "updateNodeList Returned" << std::endl;
 }
 
 long long Game::getTurnTimePassed() {
@@ -110,7 +98,7 @@ long long Game::getTurnRemainingTime() {
 	return turnTimeout - getTurnTimePassed();
 }
 
-int Game::getMyID() {
+int Game::getMyId() {
 	return myID;
 }
 
@@ -145,11 +133,9 @@ void Game::moveArmy(Node* src, Node* dst, int count)
 
 void Game::moveArmy(int src, int dst, int count)
 {
-	std::cerr << "Game::moveArmy Called" << std::endl;
 	GameEvent* gameEvent = new GameEvent(Constants::TYPE_MOVE);
 	gameEvent->addArg(src);
 	gameEvent->addArg(dst);
 	gameEvent->addArg(count);
 	eventHandler->addEvent(gameEvent);
-	std::cerr << "Game::moveArmy Returned" << std::endl;
 }

@@ -13,8 +13,8 @@ const std::string Constants::MESSAGE_KEY_TURN = "turn";
 const std::string Constants::MESSAGE_KEY_INIT = "init";
 const std::string Constants::MESSAGE_KEY_TOKEN = "token";
 const std::string Constants::MESSAGE_KEY_EVENT = "event";
-const std::string Constants::MESSAGE_KEY_SHUTDOWN = "wrong token";
-const std::string Constants::MESSAGE_KEY_WRONG_TOKEN = "shutdown";
+const std::string Constants::MESSAGE_KEY_WRONG_TOKEN = "wrong token";
+const std::string Constants::MESSAGE_KEY_SHUTDOWN = "shutdown";
 
 const std::string Constants::TYPE_MOVE = "m";
 
