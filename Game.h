@@ -17,6 +17,7 @@
 class Game : public World
 {
 private:
+	int totalTurns;
 	long long turnTimeout;
 	long long turnStartTime;
 

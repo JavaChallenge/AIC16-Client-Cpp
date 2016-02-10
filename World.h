@@ -102,6 +102,7 @@ public:
 	 */
 	virtual void moveArmy(int src, int dst, int count) = 0;
 
+	virtual int getTotalTurns() = 0;
 	virtual int getEscapeConstant() = 0;
 	virtual int getNodeBonusConstant() = 0;
 	virtual int getEdgeBonusConstant() = 0;

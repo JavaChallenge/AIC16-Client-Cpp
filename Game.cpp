@@ -15,6 +15,7 @@ Game::~Game()
 }
 
 void Game::setConstants(Json::Value &msg) {
+	this->totalTurns = msg["turns"].asInt();
 	this->turnTimeout = msg["turnTimeout"].asInt();
 	this->escape = msg["escape"].asInt();
 	this->nodeBonus = msg["nodeBonus"].asInt();
@@ -23,6 +24,10 @@ void Game::setConstants(Json::Value &msg) {
 	this->secondlvl = msg["secondlvl"].asInt();
 	this->lossRate1 = msg["lossRate1"].asInt();
 	this->lossRate2 = msg["lossRate2"].asInt();
+}
+
+int Game::getTotalTurns() {
+	return this->totalTurns;
 }
 
 int Game::getEscapeConstant() {
