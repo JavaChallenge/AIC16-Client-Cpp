@@ -41,6 +41,7 @@ public:
 	void handleInitMessage(Message msg);
 	void handleTurnMessage(Message msg);
 	void updateNodesList();
+	int getTotalTurns();
 	long long getTurnTimePassed();
 	long long getTurnRemainingTime();
 
