@@ -83,7 +83,8 @@ bool Network::doReceive()
 		char buf[MAX_LEN_OF_TCP];
 		bzero(buf,MAX_LEN_OF_TCP);
 		int sizeMessage = read(sockfd,buf,MAX_LEN_OF_TCP);
-
+		if (sizeMessage <= 0)
+			return false;
 		SubPacket *cache = new SubPacket(MAX_LEN_OF_TCP);
 		packets.push_back(cache);
 		for (int i = 0; i < sizeMessage; i++)
@@ -98,8 +99,6 @@ bool Network::doReceive()
 				packets.push_back(new SubPacket(MAX_LEN_OF_TCP));
 			}
 		}
-		if (sizeMessage < 0)
-			return false;
 	}
 	catch (std::exception& e)
 	{
