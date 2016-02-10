@@ -17,7 +17,7 @@ Parser::~Parser() {
 }
 
 void Parser::generateEvent(Message &msg, GameEvent &event) {
-	msg.addNode(Constants::MESSAGE_KEY_EVENT, event.getType());
+	msg.addNode(Constants::MESSAGE_KEY_TYPE, event.getType());
 	std::vector<int> args;
 	for (int i = 0; i < (int) event.getArgs().size(); i++) {
 		args.push_back(event.getArgs()[i]);

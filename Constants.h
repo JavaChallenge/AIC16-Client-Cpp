@@ -12,6 +12,7 @@
 
 class Constants {
 public:
+	static const std::string MESSAGE_KEY_TYPE;
 	static const std::string MESSAGE_KEY_NAME;
 	static const std::string MESSAGE_KEY_ARGS;
 	static const std::string MESSAGE_KEY_TURN;

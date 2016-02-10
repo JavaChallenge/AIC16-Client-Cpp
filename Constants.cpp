@@ -7,6 +7,7 @@
 
 #include "Constants.h"
 
+const std::string Constants::MESSAGE_KEY_TYPE = "type";
 const std::string Constants::MESSAGE_KEY_NAME = "name";
 const std::string Constants::MESSAGE_KEY_ARGS = "args";
 const std::string Constants::MESSAGE_KEY_TURN = "turn";
