@@ -102,13 +102,13 @@ public:
 	 */
 	virtual void moveArmy(int src, int dst, int count) = 0;
 
-	virtual int getEscape() = 0;
-	virtual int getNodeBonus() = 0;
-	virtual int getEdgeBonus() = 0;
-	virtual int getFirstlvl() = 0;
-	virtual int getSecondlvl() = 0;
-	virtual double getLossRate1() = 0;
-	virtual double getLossRate2() = 0;
+	virtual int getEscapeConstant() = 0;
+	virtual int getNodeBonusConstant() = 0;
+	virtual int getEdgeBonusConstant() = 0;
+	virtual int getLowArmyBound() = 0;
+	virtual int getMediumArmyBound() = 0;
+	virtual double getMediumCasualtyCoefficient() = 0;
+	virtual double getLowCasualtyCoefficient() = 0;
 
 };
 

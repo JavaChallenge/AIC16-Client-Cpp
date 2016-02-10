@@ -43,13 +43,13 @@ public:
 	long long getTurnTimePassed();
 	long long getTurnRemainingTime();
 
-	int getEscape();
-	int getNodeBonus();
-	int getEdgeBonus();
-	int getFirstlvl();
-	int getSecondlvl();
-	double getLossRate1();
-	double getLossRate2();
+	int getEscapeConstant();
+	int getNodeBonusConstant();
+	int getEdgeBonusConstant();
+	int getLowArmyBound();
+	int getMediumArmyBound();
+	double getMediumCasualtyCoefficient();
+	double getLowCasualtyCoefficient();
 
 	int getMyId();
 	Graph* getMap();

@@ -25,30 +25,30 @@ void Game::setConstants(Json::Value &msg) {
 	this->lossRate2 = msg["lossRate2"].asInt();
 }
 
-int Game::getEscape() {
+int Game::getEscapeConstant() {
 	return this->escape;
 }
 
-int Game::getNodeBonus() {
+int Game::getNodeBonusConstant() {
 	return this->nodeBonus;
 }
-int Game::getEdgeBonus() {
+int Game::getEdgeBonusConstant() {
 	return this->edgeBonus;
 }
 
-int Game::getFirstlvl() {
+int Game::getLowArmyBound() {
 	return this->firstlvl;
 }
 
-int Game::getSecondlvl() {
+int Game::getMediumArmyBound() {
 	return this->secondlvl;
 }
 
-double Game::getLossRate1() {
+double Game::getMediumCasualtyCoefficient() {
 	return this->lossRate1;
 }
 
-double Game::getLossRate2() {
+double Game::getLowCasualtyCoefficient() {
 	return this->lossRate2;
 }
 
