@@ -6,6 +6,7 @@
  */
 
 #include "Network.h"
+#include "util.h"
 #include <chrono>
 #include "Controller.h"
 
@@ -29,7 +30,6 @@ void Network::connect()
 	try
 	{
 		isConnected = false;
-		char buffer[256];
 		this->sockfd = socket(AF_INET, SOCK_STREAM, 0);
 		if (this->sockfd < 0)
 			throw("ERROR opening socket");
@@ -58,7 +58,6 @@ void Network::connect()
 		return;
 	}
 	catch (...) {
-		std::cerr << "exception caught in network::connect()\n";
 		return;
 	}
 	isConnected = true;
@@ -139,10 +138,10 @@ void Network::sendMessage(Message &msg)
 	{
 		std::string message = msg.getJson();
 		n = write(sockfd,message.c_str(),message.size());
-//		if (n < 0) {
-//			std::cerr << "!!!\n";
-//			throw "Connection closed by peer";
-//		}
+		if (n < 0) {
+			std::cerr << "!!!\n";
+			throw "Connection closed by peer";
+		}
 	}
 }
 

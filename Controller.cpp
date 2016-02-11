@@ -115,12 +115,9 @@ void Controller::doTurn()
 	try
 	{
 		std::thread *thr = new std::thread(&Controller::run, this);
-		usleep(game->getTotalTurnTime() * 1000);
 		thr->join();
 		if(thr != NULL)
 			delete thr;
-//		if (eventHandler->getIsThreadCall())
-//			eventHandler->getThr()->join();
 	}
 	catch (...)
 	{
