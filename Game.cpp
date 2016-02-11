@@ -6,6 +6,17 @@ Game::Game()
 {
 	turnStartTime = -1;
 	map = NULL;
+	lossRate1 = 0;
+	lossRate2 = 0;
+	escape = 0;
+	totalTurns = 0;
+	turn = 0;
+	turnTimeout = 0;
+	myID = 0;
+	firstlvl = 0;
+	secondlvl = 0;
+	nodeBonus = 0;
+	edgeBonus = 0;
 }
 
 Game::~Game()

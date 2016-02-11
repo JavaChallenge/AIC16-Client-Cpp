@@ -115,10 +115,7 @@ void Controller::doTurn()
 	try
 	{
 		std::thread *thr = new std::thread(&Controller::run, this);
-		thr->join();
-		if(thr != NULL)
-			delete thr;
-	}
+ 	}
 	catch (...)
 	{
 		std::cerr << "Exception in Controller::doTurn" << std::endl;

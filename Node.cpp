@@ -10,6 +10,8 @@
 Node::Node(int index) {
 	// TODO Auto-generated constructor stub
 	this->index = index;
+	this->owner = -1;
+	this->armyCount = 0;
 }
 
 Node::~Node() {
