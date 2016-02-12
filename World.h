@@ -110,7 +110,6 @@ public:
 	virtual int getMediumArmyBound() = 0;
 	virtual double getMediumCasualtyCoefficient() = 0;
 	virtual double getLowCasualtyCoefficient() = 0;
-
 };
 
 #endif // _WORLD_H

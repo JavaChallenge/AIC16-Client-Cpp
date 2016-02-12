@@ -15,6 +15,7 @@
  */
 class AI
 {
+
 public:
 	void doTurn(World *world);
 };
