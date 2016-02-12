@@ -138,10 +138,6 @@ void Network::sendMessage(Message &msg)
 	{
 		std::string message = msg.getJson();
 		n = write(sockfd,message.c_str(),message.size());
-		if (n < 0) {
-			std::cerr << "!!!\n";
-			throw "Connection closed by peer";
-		}
 	}
 }
 
