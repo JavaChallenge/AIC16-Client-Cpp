@@ -1,6 +1,8 @@
 CXX = g++ --std=c++0x
 JSONPATH = jsoncpp-src-0.5.0/include
-FLAGS = -Wall -L/usr/local/lib -Wl,-rpath=/usr/local/lib -I$(JSONPATH)
+LIBPCAPFOLDER = libpcap-1.5.3/
+PCAPPATH = libpcap-1.5.3/pcap
+FLAGS = -Wall -L/usr/local/lib -Wl,-rpath=/usr/local/lib -I$(JSONPATH) -I$(LIBPCAPFOLDER)
 LIBS = -lpthread
 
 TARGET = flows.out
@@ -8,16 +10,21 @@ TARGET = flows.out
 JSON_OBJECTS = jsoncpp-src-0.5.0/src/lib_json/json_reader.o \
 	       jsoncpp-src-0.5.0/src/lib_json/json_value.o \
 	       jsoncpp-src-0.5.0/src/lib_json/json_writer.o
+	       
+PCAP_OBJECTS = $(wildcard $(LIBPCAPFOLDER)/*.o)
 
 BASE_SOURCES = $(wildcard */*.cpp) $(wildcard *.cpp)
 BASE_OBJ = ${BASE_SOURCES:.cpp=.o}
 BASE_OBJECTS = ${BASE_OBJ:.c=.o}
 
-OBJECTS = ${BASE_OBJECTS} ${JSON_OBJECTS}
+OBJECTS = ${BASE_OBJECTS} ${JSON_OBJECTS} ${PCAP_OBJECTS}
 
-all: ${TARGET}
+$(PCAP):
+	$(MAKE) -C $(LIBPCAPFOLDER)
 
-${TARGET}: ${OBJECTS}
+all: $(TARGET) $(PCAP) 
+
+$(TARGET): ${OBJECTS}
 	${CXX} ${FLAGS} -o ${TARGET} ${OBJECTS} ${LIBS}
 
 clean:
