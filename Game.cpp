@@ -1,6 +1,13 @@
 #include "Game.h"
 #include <ctime>
+#include <x86_64-linux-gnu/sys/time.h>
 #include "util.h"
+
+long long getTimeInMilliSeconds() {
+	timeval tv;
+	gettimeofday(&tv,NULL);
+	return (1000000 * tv.tv_sec + tv.tv_usec)/1000;
+}
 
 Game::Game()
 {
@@ -116,7 +123,7 @@ void Game::handleInitMessage(Message msg)
 
 void Game::handleTurnMessage(Message msg)
 {
-	turnStartTime = time(0);
+	turnStartTime = getTimeInMilliSeconds();
 
 	Json::Value &argsArray = msg.getArray("args");
 	Json::UInt I=0;
@@ -146,7 +153,7 @@ void Game::updateNodesList()
 }
 
 long long Game::getTurnTimePassed() {
-	return time(0) - turnStartTime;
+	return getTimeInMilliSeconds() - turnStartTime;
 }
 
 long long Game::getTurnRemainingTime() {
